@@ -1,4 +1,4 @@
-<div>
+<div ng>
     <a *ngIf="user === undefined" 
     routerLink="/login"
     tuiLink
@@ -12,9 +12,9 @@
     tuiDropdownHover
     class="user-info"
     >
-        <span>{{ user.first_name }} {{ user.last_name }}</span>
+        <span>{{ user?.first_name }} {{ user?.last_name }}</span>
         <tui-avatar
-            [text]="user.first_name + ' ' + user.last_name"
+            [text]="user?.first_name + ' ' + user?.last_name"
             class="tui-space_top-1"
             [rounded]="true"
             [autoColor]="true"
