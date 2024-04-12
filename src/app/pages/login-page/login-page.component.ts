@@ -1,19 +1,28 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TuiErrorModule } from '@taiga-ui/core';
-import { TuiFieldErrorPipeModule, TuiInputModule, TuiStepperModule } from '@taiga-ui/kit';
-import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from '@taiga-ui/i18n'
-import { of } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { TuiButtonModule, TuiErrorModule, TuiLinkModule } from '@taiga-ui/core';
+import { TuiFieldErrorPipeModule, TuiInputModule, TuiInputPasswordModule, TuiStepperModule } from '@taiga-ui/kit';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [TuiStepperModule, ReactiveFormsModule, TuiInputModule, TuiErrorModule, TuiFieldErrorPipeModule, AsyncPipe],
+  imports: [
+    TuiStepperModule, 
+    ReactiveFormsModule, 
+    RouterModule,
+    TuiInputModule,
+    TuiInputPasswordModule,
+    TuiErrorModule, 
+    TuiFieldErrorPipeModule,
+    TuiButtonModule, 
+    TuiLinkModule,
+    AsyncPipe,
+  ],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{provide: TUI_LANGUAGE, useValue: of(TUI_RUSSIAN_LANGUAGE)}]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginPageComponent {
 
@@ -23,7 +32,16 @@ export class LoginPageComponent {
       Validators.minLength(3),
       Validators.maxLength(29),
       Validators.pattern('[a-zA-Z0-9_]*')
+    ]),
+    passwordValue: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(29),
+      Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$')
     ])
   })
+
+  onSubmit(): void {
+    console.log('hi')
+  }
 
 }

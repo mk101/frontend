@@ -2,8 +2,6 @@ import { NgDompurifySanitizer } from "@tinkoff/ng-dompurify";
 import { TuiRootModule, TuiDialogModule, TuiAlertModule, TUI_SANITIZER } from "@taiga-ui/core";
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TUI_LANGUAGE, TUI_RUSSIAN_LANGUAGE } from '@taiga-ui/i18n'
-import { of } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +11,6 @@ import { of } from "rxjs";
   styleUrl: './app.component.scss',
     providers: [
       {provide: TUI_SANITIZER, useClass: NgDompurifySanitizer},
-      {provide: TUI_LANGUAGE, useValue: of(TUI_RUSSIAN_LANGUAGE)}
     ]
 })
 export class AppComponent {
