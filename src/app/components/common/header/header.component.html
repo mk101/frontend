@@ -1,0 +1,20 @@
+<header>
+    <div class="header-wrapper">
+        <div class="header-left">
+            <nav>
+                <a 
+                *ngFor="let button of buttons" 
+                [routerLink]="button.route"
+                tuiLink
+                >
+                    {{ button.name }}
+            </a>
+            </nav>
+        </div>
+    
+        <div class="header-right">
+            <app-header-user></app-header-user>
+        </div>
+    </div>
+    
+</header>

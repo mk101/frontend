@@ -1,0 +1,41 @@
+<div class="container">
+    <div class="tui-container">
+        <form [formGroup]="loginForm">
+            <div class="tui-row tui-row_sme">
+                <div class="tui-col_4">
+                    <h3 class="tui-form__header tui-form__header_margin-top_none">Вход</h3>
+                    <div class="tui-form__row">
+                        <tui-input
+                                formControlName="loginValue"
+                                tuiHintContent="Логин"
+                            >
+                                Логин
+                                <input
+                                    placeholder="Логин"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input>
+                        <tui-error
+                        formControlName="loginValue"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                    </div>
+                    <div class="tui-form__row">
+                        <tui-input
+                                formControlName="passwordValue"
+                                tuiHintContent="Логин"
+                            >
+                                Логин
+                                <input
+                                    placeholder="Логин"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

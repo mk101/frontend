@@ -1,0 +1,31 @@
+<div>
+    <a *ngIf="user === undefined" 
+    routerLink="/login"
+    tuiLink
+    >
+        Войти
+    </a>
+
+    <div 
+    *ngIf="user !== undefined"
+    [tuiDropdown]="dropdownContent"
+    tuiDropdownHover
+    class="user-info"
+    >
+        <span>{{ user.first_name }} {{ user.last_name }}</span>
+        <tui-avatar
+            [text]="user.first_name + ' ' + user.last_name"
+            class="tui-space_top-1"
+            [rounded]="true"
+            [autoColor]="true"
+            size="s"
+        ></tui-avatar>
+
+        <ng-template #dropdownContent>
+            <tui-data-list>
+                <button (click)="onClickSettings()" tuiOption>Настройки</button>
+                <button (click)="onClickExit()" tuiOption>Выход</button>
+            </tui-data-list>
+        </ng-template>
+    </div>
+</div>

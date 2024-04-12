@@ -1,0 +1,38 @@
+header {
+    z-index: 1;
+    height: 60px;
+    box-shadow: var(--tui-shadow-navigation);
+    .header {
+        &-wrapper {
+            padding-top: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+
+            a {
+                text-decoration: none;
+                color: var(--tui-text-01);
+            }
+        }
+
+        &-left {
+            float: left;
+            line-height: 40px;
+            margin: 0;
+
+            nav a {
+                display: inline-block;
+                padding: 0 5px;
+                text-decoration: none;
+
+                &:hover {
+                    color: var(--tui-link-hover);
+                }
+            }
+        }
+
+        &-right {
+            line-height: 40px;
+            float: right;
+        }
+    }
+}
