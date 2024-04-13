@@ -1,0 +1,22 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.tui-row {
+    justify-content: center;
+}
+
+.tui-form__header {
+    text-align: center;
+}
+
+.stepper {
+    margin-bottom: 2rem;
+}
+
+tui-stepper {
+    justify-content: center;
+}

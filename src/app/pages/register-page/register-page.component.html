@@ -1,0 +1,112 @@
+<div class="container">
+    <div class="tui-container">
+        <div class="stepper">
+            <tui-stepper [activeItemIndex]="0">
+                <button 
+                    tuiStep
+                    (click)="step = 0"
+                >Данные для входа</button>
+                <button
+                    tuiStep
+                    (click)="step = 1"
+                >
+                    Данные о пользователе
+                </button>
+            </tui-stepper>
+        </div>
+        <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && onSubmit()">
+            <h3 class="tui-form__header tui-form__header_margin-top_none tui-form__header">Регистрация</h3>
+            <div class="tui-row tui-row_sme" *ngIf="step === 0">
+                <div class="tui-col_4">
+                    <div class="tui-form__row">
+                        <tui-input
+                                formControlName="loginValue"
+                                tuiHintContent="Логин"
+                            >
+                                Логин
+                                <input
+                                    placeholder="Логин"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input>
+                        <tui-error
+                        formControlName="loginValue"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                    </div>
+                    <div class="tui-form__row">
+                        <tui-input-password
+                                formControlName="passwordValue"
+                                tuiHintContent="Пароль"
+                            >
+                                Пароль
+                                <input
+                                    placeholder="Пароль"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input-password>
+                        <tui-error
+                        formControlName="passwordValue"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tui-row tui-row_sme" *ngIf="step === 1">
+                <div class="tui-col_4">
+                    <div class="tui-form__row">
+                        <tui-input
+                                formControlName="firstNameValue"
+                                tuiHintContent="Имя"
+                            >
+                                Имя
+                                <input
+                                    placeholder="Имя"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input>
+                        <tui-error
+                        formControlName="firstNameValue"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                    </div>
+                    <div class="tui-form__row">
+                        <tui-input
+                                formControlName="lastNameValue"
+                                tuiHintContent="Фамилия"
+                            >
+                                Фамилия
+                                <input
+                                    placeholder="Фамилия"
+                                    tuiTextfield
+                                />
+                                <span class="tui-required"></span>
+                        </tui-input>
+                        <tui-error
+                        formControlName="lastNameValue"
+                        [error]="[] | tuiFieldError | async"
+                        ></tui-error>
+                    </div>
+                </div>
+            </div>
+            <div class="tui-form__buttons tui-form__buttons_align_center">
+                <button
+                    size="l"
+                    tuiButton
+                    type="submit"
+                    class="tui-form__button"
+                    [disabled]="!registerForm.valid"
+                >
+                    Зарегистрироваться
+                </button>
+            </div>
+            <div class="tui-form__buttons tui-form__buttons_align_center">
+                <a routerLink="/login" tuiLink>Есть аккаунт</a>
+            </div>
+        </form>
+    </div>
+</div>

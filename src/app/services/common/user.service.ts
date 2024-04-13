@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { User } from '../../models/common/user'
 import { Consumer } from '../../models/common/types'
-import { LoginRequest, TokensResponse } from '../../models/requests/auth'
+import { LoginRequest, RegisterRequest, TokensResponse } from '../../models/requests/auth'
 import { Response } from '../../models/requests/base'
 
 @Injectable({
@@ -74,6 +74,27 @@ export class UserService {
 
     localStorage.removeItem('access')
     localStorage.removeItem('refresh')
+    onSuccess()
+  }
+
+  async register(
+    request: RegisterRequest,
+    onSuccess: () => void,
+    onError: Consumer<string>
+  ) {
+    const response = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(request)
+    })
+
+    if (!response.ok) {
+      onError((await response.json())['error'])
+      return
+    }
+
     onSuccess()
   }
 
