@@ -1,9 +1,11 @@
 import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { TuiButtonModule, TuiErrorModule, TuiLinkModule } from '@taiga-ui/core';
+import { Router, RouterModule } from '@angular/router';
+import { TuiAlertService, TuiButtonModule, TuiErrorModule, TuiLinkModule } from '@taiga-ui/core';
 import { TuiFieldErrorPipeModule, TuiInputModule, TuiInputPasswordModule, TuiStepperModule } from '@taiga-ui/kit';
+import { from } from 'rxjs';
+import { UserService } from '../../services/common/user.service';
 
 @Component({
   selector: 'app-login-page',
@@ -26,6 +28,12 @@ import { TuiFieldErrorPipeModule, TuiInputModule, TuiInputPasswordModule, TuiSte
 })
 export class LoginPageComponent {
 
+  constructor(
+    private userService: UserService,
+    private alert: TuiAlertService,
+    private router: Router
+  ) {}
+
   loginForm = new FormGroup({
     loginValue: new FormControl('', [
       Validators.required, 
@@ -41,7 +49,13 @@ export class LoginPageComponent {
   })
 
   onSubmit(): void {
-    console.log('hi')
+    console.log(`${this.loginForm.controls.loginValue.value} ${this.loginForm.controls.passwordValue.value}`)
+    this.userService.login(
+      this.loginForm.controls.loginValue.value!,
+      this.loginForm.controls.passwordValue.value!,
+      () => {this.router.navigate(['/'])},
+      (error) => {this.alert.open(error).subscribe()}
+    )
   }
 
 }

@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
 import { User } from '../../../models/common/user';
 import { UserService } from '../../../services/common/user.service';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { TuiDataListModule, TuiDropdownModule, TuiLinkModule } from '@taiga-ui/core';
+import { TuiAlertService, TuiDataListModule, TuiDropdownModule, TuiLinkModule } from '@taiga-ui/core';
 import { TuiAvatarModule } from '@taiga-ui/kit';
 import { Router, RouterModule } from '@angular/router';
 
@@ -17,7 +17,9 @@ import { Router, RouterModule } from '@angular/router';
 export class HeaderUserComponent {
 
   constructor(
-    private router: Router
+    private router: Router,
+    private userService: UserService,
+    private alert: TuiAlertService
   ) {}
 
   @Input()
@@ -28,7 +30,10 @@ export class HeaderUserComponent {
   }
 
   onClickExit() {
-    console.log('Exit')
+    this.userService.logout(
+      () => window.location.reload(),
+      (err) => this.alert.open(err).subscribe()
+    )
   }
 
 }
