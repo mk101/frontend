@@ -4,7 +4,7 @@ import { Consumer } from '../../models/common/types'
 import { LoginRequest, RegisterRequest, TokensResponse } from '../../models/requests/auth'
 import { Response } from '../../models/requests/base'
 import { RequestService } from './request.service'
-import { Method } from '../../models/common/request'
+import { Method } from '../../models/requests/request'
 
 @Injectable({
   providedIn: 'root'

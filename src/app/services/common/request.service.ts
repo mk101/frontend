@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Request, Response } from '../../models/common/request';
+import { Request, Response } from '../../models/requests/request';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -55,7 +55,7 @@ export class RequestService {
     const response = await fetch(data.url, {
       method: data.method.toString(),
       headers: headers,
-      body: data.body !== undefined ? JSON.stringify(data.body) : undefined
+      body: data.body !== undefined ? JSON.stringify(data.body) : undefined,
     })
 
     if (!response.ok) {

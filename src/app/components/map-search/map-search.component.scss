@@ -1,0 +1,26 @@
+.search-form {
+    position: relative;
+    top: 15px;
+    margin-left: 20px;
+    display: flex;
+}
+
+tui-input {
+    width: 400px;
+}
+
+button {
+    margin-left: 5px;
+}
+
+tui-island {
+    position: relative;
+    top: 25px;
+    left: 20px;
+    width: 430px;
+}
+
+tui-data-list {
+    max-height: 200px;
+    overflow-y: auto;
+}

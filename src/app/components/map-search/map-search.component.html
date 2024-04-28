@@ -1,0 +1,51 @@
+<form class="search-form" [formGroup]="searchForm">
+    <tui-input formControlName="searchValue">
+        Поиск
+        <input tuiTextfield
+            type="text"/>
+    </tui-input>
+    <button
+        icon="tuiIconSearch"
+        tuiIconButton
+        type="button"
+        (click)="onClick()"
+    ></button>
+</form>
+
+    <tui-island tuiOverscroll="scroll">
+        <tui-data-list role="menu">
+            <tui-opt-group>
+                @for (data of searchResult; track data) {
+                    <a 
+                        role="menuitemcheckbox"
+                        tuiOption
+                        (click)="onItemClick(data)"
+                    >
+                    <div>
+                        <div class="title-tags">
+                            {{data.name}}
+                            <tui-items-with-more>
+                                <ng-container *ngFor="let tag of data.tags">
+                                    <tui-tag
+                                        *tuiItem
+                                        size="s"
+                                        status="primary"
+                                        class="tui-space_right-1"
+                                        [value]="tag"
+                                    ></tui-tag>
+                                </ng-container>
+                                <ng-template
+                                    let-index
+                                    tuiMore
+                                >
+                                + {{ getRemaining(index, data.tags) }}
+                                </ng-template>
+                            </tui-items-with-more>
+                        </div>
+                        <div>{{data.description.substring(0, 30)}}</div>
+                    </div>
+                </a>
+                }
+            </tui-opt-group>
+        </tui-data-list>
+    </tui-island>
