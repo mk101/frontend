@@ -3,13 +3,15 @@ import { User } from '../../models/common/user'
 import { Consumer } from '../../models/common/types'
 import { LoginRequest, RegisterRequest, TokensResponse } from '../../models/requests/auth'
 import { Response } from '../../models/requests/base'
+import { RequestService } from './request.service'
+import { Method } from '../../models/common/request'
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() { }
+  constructor(private requestService: RequestService) { }
 
   private currentUser: User | undefined
 
@@ -118,16 +120,16 @@ export class UserService {
       return undefined
      }
 
-     const response = await fetch(`/api/users?id=${sub}`, {
-      method: 'GET'
+     const response = await this.requestService.request({
+      method: Method.GET,
+      url: `/api/users?id=${sub}`
      })
 
-     if (!response.ok) {
-      console.log(await response.json())
+     if (response.code !== 200) {
       return undefined
      }
 
-     return (await response.json())['data']
+     return (response.body as any)['data']
   }
 
 }
