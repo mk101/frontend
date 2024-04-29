@@ -9,7 +9,7 @@ export interface SearchData {
     data: object,
     name: string,
     description: string,
-    status: string,
+    status: 'WARNING' | 'RESOLVE' | 'INFO',
     tags: string[]
 }
 

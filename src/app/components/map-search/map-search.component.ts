@@ -1,10 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TuiButtonModule, TuiDataListModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiDataListModule, TuiHintModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiInputModule, TuiIslandModule, TuiItemsWithMoreModule, TuiTagModule } from '@taiga-ui/kit';
 import { RequestService } from '../../services/common/request.service';
 import { SearchData } from '../../models/search';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { TuiOverscrollModule } from '@taiga-ui/cdk';
 import { Method } from '../../models/requests/request';
 import { Response } from '../../models/requests/base';
@@ -14,6 +14,7 @@ import { Response } from '../../models/requests/base';
   standalone: true,
   imports: [
     NgFor,
+    NgIf,
     TuiInputModule, 
     TuiButtonModule,
     TuiIslandModule,
@@ -21,7 +22,9 @@ import { Response } from '../../models/requests/base';
     TuiOverscrollModule,
     ReactiveFormsModule,
     TuiTagModule,
-    TuiItemsWithMoreModule
+    TuiItemsWithMoreModule,
+    TuiSvgModule,
+    TuiHintModule
   ],
   templateUrl: './map-search.component.html',
   styleUrl: './map-search.component.scss'
@@ -37,6 +40,24 @@ export class MapSearchComponent implements OnInit {
   })
 
   readonly required = 1
+
+  readonly iconMap = {
+    'WARNING': 'tuiIconZap',
+    'RESOLVE': 'tuiIconCheck',
+    'INFO': 'tuiIconInfo'
+  }
+
+  readonly colorMap = {
+    WARNING: 'tomato',
+    RESOLVE: 'lime',
+    INFO: 'black'
+  }
+
+  readonly textMap = {
+    WARNING: 'Проблема',
+    RESOLVE: 'Решено',
+    INFO: 'Информационный слой'
+  }
 
   searchResult: SearchData[] = []
 

@@ -23,6 +23,14 @@
                     >
                     <div>
                         <div class="title-tags">
+                            <tui-svg 
+                                [src]="iconMap[data.status]" 
+                                [style]="'color: ' + colorMap[data.status] + ';'"
+                                [tuiHint]="tooltip"
+                            ></tui-svg>
+                            <ng-template #tooltip>
+                                <div>{{textMap[data.status]}}</div>
+                            </ng-template>
                             {{data.name}}
                             <tui-items-with-more>
                                 <ng-container *ngFor="let tag of data.tags">
