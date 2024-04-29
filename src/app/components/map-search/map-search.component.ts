@@ -95,6 +95,7 @@ export class MapSearchComponent implements OnInit {
       }
 
       this.searchResult = (r.body as Response<SearchData[]>).data!
+      this.searchResult.sort((a, b) => this.statusToNumber(a.status) > this.statusToNumber(b.status) ? -1 : 1)
       console.log(this.searchResult)
     })
   }
@@ -110,6 +111,14 @@ export class MapSearchComponent implements OnInit {
     const offset = index < this.required ? index + 2 : index + 1
  
     return data.length - offset
+  }
+
+  private statusToNumber(status: string): number {
+    switch(status) {
+      case 'WARNING': return 3
+      case 'RESOLVE': return 2
+      default: return 1
+    }
   }
 
 }
