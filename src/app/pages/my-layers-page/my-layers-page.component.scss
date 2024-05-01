@@ -1,0 +1,16 @@
+.container {
+    margin: auto;
+    max-width: 1000px;
+    margin-top: 10px;
+}
+
+.layer-element {
+    padding: 10px 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: box-shadow 0.5s;
+
+    &:hover {
+        box-shadow: var(--tui-shadow);
+    }
+}

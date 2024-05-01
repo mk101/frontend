@@ -1,0 +1,15 @@
+<app-header [buttons]="buttons"></app-header>
+
+<div class="container">
+    <div *ngIf="layers === undefined">Загрузка</div>
+    <div *ngIf="layers?.length === 0">Ничего не найдено</div>
+
+    <div 
+        *ngFor="let layer of layers"
+        (click)="onClick(layer)"
+        class="layer-element"
+    >
+        <div>{{layer.name}}</div>
+        <div>{{layer.description}}</div>
+    </div>
+</div>

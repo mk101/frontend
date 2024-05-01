@@ -15,6 +15,10 @@ export class MainPageComponent {
     {
       name: 'Создать слой',
       route: '/create-layer'
+    },
+    {
+      name: 'Мои слои',
+      route: '/my-layers'
     }
   ]
 }
