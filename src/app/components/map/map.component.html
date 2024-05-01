@@ -1,3 +1,11 @@
 <div id="ol-map" class="map-container"></div>
 
-<app-map-search (layerClick)="layerClick($event)"></app-map-search>
+<app-map-search *ngIf="useSearch" (layerClick)="layerClick($event)"></app-map-search>
+
+<app-map-draw 
+    *ngIf="useDraw" 
+    (onTypeChange)="onTypeChange($event)"
+    (onUndo)="onUndo()"
+    (onClear)="onClear()"
+    (onSave)="onSave()"
+></app-map-draw>

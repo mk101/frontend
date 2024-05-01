@@ -1,0 +1,43 @@
+<form class="draw-form" [formGroup]="drawForm">
+    <tui-select [formControl]="drawForm.controls.typeValue">
+        Тип
+        <input placeholder="Тип элемента"
+            tuiTextfield/>
+        <tui-data-list-wrapper
+            *tuiDataList
+            [items]="typesString"
+            (itemClick)="onItemClick($event)"
+        ></tui-data-list-wrapper>
+    </tui-select>
+    <button
+        icon="tuiIconUndoLarge"
+        tuiIconButton
+        type="button"
+        (click)="onUndoClick()"
+        [tuiHint]="undoTooltip"
+    ></button>
+    <button
+        icon="tuiIconSpoilerDeleteLarge"
+        tuiIconButton
+        type="button"
+        (click)="onClearClick()"
+        [tuiHint]="clearTooltip"
+    ></button>
+    <button
+        icon="tuiIconSaveLarge"
+        tuiIconButton
+        type="button"
+        (click)="onSaveClick()"
+        [tuiHint]="saveTooltip"
+    ></button>
+
+    <ng-template #undoTooltip>
+        <div>Отменить последнюю точку</div>
+    </ng-template>
+    <ng-template #clearTooltip>
+        <div>Очистить</div>
+    </ng-template>
+    <ng-template #saveTooltip>
+        <div>Сохранить</div>
+    </ng-template>
+</form>

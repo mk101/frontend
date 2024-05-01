@@ -4,7 +4,7 @@
             <nav>
                 <a 
                 *ngFor="let button of buttons" 
-                [routerLink]="button.route"
+                [href]="button.route"
                 tuiLink
                 >
                     {{ button.name }}

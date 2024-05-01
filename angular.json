@@ -41,7 +41,10 @@
               "src/styles.scss",
               "node_modules/ol/ol.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["node_modules/"]
+            }
           },
           "configurations": {
             "production": {
