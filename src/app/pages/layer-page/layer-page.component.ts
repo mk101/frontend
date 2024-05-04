@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from '../../services/common/request.service';
 import { Method } from '../../models/requests/request';
-import { TuiAlertService, TuiButtonModule, TuiSvgModule } from '@taiga-ui/core';
+import { TuiAlertService, TuiButtonModule, TuiDialogService, TuiSvgModule } from '@taiga-ui/core';
 import { SearchData } from '../../models/search';
 import { Response } from '../../models/requests/base';
 import { HeaderComponent } from '../../components/common/header/header.component';
@@ -12,7 +12,9 @@ import { CommonModule } from '@angular/common';
 import { TuiTagModule } from '@taiga-ui/kit';
 import { User, Role } from '../../models/common/user';
 import { UserService } from '../../services/common/user.service';
-import { Observable, from } from 'rxjs';
+import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
+import { EditLayerDialogComponent } from '../../components/dialogs/edit-layer-dialog/edit-layer-dialog.component';
+import { EditLayer } from '../../models/edit-layer';
 
 @Component({
   selector: 'app-layer-page',
@@ -56,10 +58,16 @@ export class LayerPageComponent implements OnInit {
     private router: Router,
     private requestService: RequestService,
     private alert: TuiAlertService,
-    private userService: UserService
+    private userService: UserService,
+    private readonly dialogs: TuiDialogService,
+    private readonly injector: Injector
   ) {}
 
   ngOnInit(): void {
+    this.loadLayer()
+  }
+
+  loadLayer(): void {
     const tmp = this.route.snapshot.queryParamMap.get('id')
     if (tmp === null || tmp.trim() === '') {
       this.router.navigate(['/'])
@@ -142,6 +150,57 @@ export class LayerPageComponent implements OnInit {
     }
 
     return (response.body as Response<User>).data!
+  }
+
+  onEdit() {
+    this.dialogs.open<EditLayer>(
+        new PolymorpheusComponent(EditLayerDialogComponent, this.injector),
+        {
+            data: <EditLayer>{
+              name: this.layer.name,
+              description: this.layer.description,
+              status: this.layer.status,
+              tags: this.layer.tags
+            },
+            dismissible: true,
+            label: 'Изменить слой',
+        },
+    ).subscribe({
+      next: value => {
+        this.requestService.request({
+          method: Method.PUT,
+          url: '/api/layers',
+          body: {
+            ...value,
+            id: this.layer.id,
+            data: this.layer.data
+          }
+        }).then(response => {
+          if (response.code !== 200) {
+            this.alert.open('Что-то пошло не так', {status: 'error'}).subscribe()
+            console.log(response)
+            return
+          }
+
+          this.alert.open('Успешно').subscribe()
+          this.loadLayer()
+        })
+      }
+    })
+  }
+
+  onDelete() {
+    this.requestService.request({
+      method: Method.DELETE,
+      url: `/api/layers?id=${this.layer.id}`
+    }).then(response => {
+      if (response.code !== 200) {
+        this.alert.open('Что-то пошло не так', {status: 'error'}).subscribe()
+        return
+      }
+
+      this.router.navigate(['my-layers'])
+    })
   }
 
 }
