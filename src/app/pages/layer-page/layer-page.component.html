@@ -1,0 +1,42 @@
+<div class="header-wrapper">
+    <app-header [buttons]="buttons"></app-header>
+</div>
+
+<div class="container" *ngIf="layer !== undefined">
+    <h1 class="tui-text_h1">
+        <tui-svg 
+            [src]="iconMap[layer.status]"
+        ></tui-svg>
+        {{ layer.name }}
+        <button
+            *ngIf="canEdit"
+            tuiIconButton
+            type="button"
+            icon="tuiIconEditLarge"
+            appearance="flat"
+        ></button>
+        <button
+        *ngIf="canDelete"
+        tuiIconButton
+        type="button"
+        icon="tuiIconTrash2Large"
+        appearance="secondary-destructive"
+    ></button>
+    </h1>
+    <div class="layer-tags">
+        <tui-tag
+            *ngFor="let tag of layer.tags"
+            size="m"
+            [value]="tag"
+        ></tui-tag>
+    </div>
+    <p class="tui-text_body-m">{{ layer.description }}</p>
+    <p class="tui-text_body-m">Создан: <span *ngIf="createdUser !== undefined">{{ createdUser.first_name }} {{ createdUser.last_name }}</span> Дата: {{ layer.createdAt }}</p>
+    <p class="tui-text_body-m" *ngIf="modifyUser !== undefined">Изменен: {{ modifyUser.first_name }} {{ modifyUser.last_name }} Дата: {{ layer.editAt }}</p>
+</div>
+
+<app-map *ngIf="layer !== undefined"
+[useSearch]="false" 
+[useDraw]="false"
+[layer]="layer"
+></app-map>

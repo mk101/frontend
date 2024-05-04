@@ -1,0 +1,18 @@
+.container {
+    padding-top: 60px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.header-wrapper {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    z-index: 10;
+}
+
+tui-tag {
+    margin-right: 5px;
+}

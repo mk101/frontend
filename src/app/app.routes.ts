@@ -5,6 +5,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { RegisterPageComponent } from './pages/register-page/register-page.component';
 import { CreateLayerPageComponent } from './pages/create-layer-page/create-layer-page.component';
 import { MyLayersPageComponent } from './pages/my-layers-page/my-layers-page.component';
+import { LayerPageComponent } from './pages/layer-page/layer-page.component';
 
 export const routes: Routes = [
     {path: '', component: MainPageComponent},
@@ -12,5 +13,6 @@ export const routes: Routes = [
     {path: 'register', component: RegisterPageComponent},
     {path: 'create-layer', component: CreateLayerPageComponent},
     {path: 'my-layers', component: MyLayersPageComponent},
+    {path: 'layer', component: LayerPageComponent},
     {path: '**', pathMatch: 'full', component: NotFoundComponent} // 404
 ];

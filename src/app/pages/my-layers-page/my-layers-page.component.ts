@@ -44,7 +44,7 @@ export class MyLayersPageComponent implements OnInit {
 
       this.requestService.request({
         method: Method.GET,
-        url: `/api/layers?id=${usr.id}`
+        url: `/api/layers/user?id=${usr.id}`
       }).then(r => {
         if (r.code != 200) {
           this.router.navigate(['/'])

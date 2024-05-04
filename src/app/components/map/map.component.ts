@@ -33,6 +33,7 @@ export class MapComponent implements OnInit {
 
   @Input() useSearch: boolean = true
   @Input() useDraw: boolean = false
+  @Input() layer: SearchData | undefined = undefined
 
   private map: OlMap
 
@@ -62,7 +63,19 @@ export class MapComponent implements OnInit {
       target: 'ol-map'
     })
 
+    if (this.layer !== undefined) {
+      const vectorSource = new VectorSource({
+        features: new GeoJSON().readFeatures(this.layer.data)
+      })
+  
+      const vectorLayer = new VectorLayer({
+        source: vectorSource
+      })
 
+      this.map.addLayer(vectorLayer)
+      
+      this.map.getView().fit(vectorSource.getExtent())
+    }
   }
 
   layerClick(layer: SearchData) {
