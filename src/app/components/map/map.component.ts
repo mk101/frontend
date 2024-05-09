@@ -20,6 +20,7 @@ import { PolymorpheusComponent } from "@tinkoff/ng-polymorpheus"
 import { SaveLayerDialogComponent } from '../dialogs/save-layer-dialog/save-layer-dialog.component'
 import { RequestService } from '../../services/common/request.service'
 import { Method } from '../../models/requests/request'
+import { Response } from '../../models/requests/base'
 
 @Component({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -180,6 +181,20 @@ export class MapComponent implements OnInit {
         ...data,
         data: json
       }
+    }).then(response => {
+      if (response.code !== 200) {
+        this.alert.open('Что-то пошло не так', {status: 'error'}).subscribe()
+        return
+      }
+
+      if (response.body !== undefined) {
+        if ((response.body as Response<any>).error === 'User disabled') {
+          this.alert.open('Пользователь деактивирован', {status: 'error'}).subscribe()
+          return
+        }
+      }
+
+      this.alert.open('Успех').subscribe()
     })
   }
 

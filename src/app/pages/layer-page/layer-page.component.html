@@ -33,8 +33,8 @@
         ></tui-tag>
     </div>
     <p class="tui-text_body-m">{{ layer.description }}</p>
-    <p class="tui-text_body-m">Создан: <span *ngIf="createdUser !== undefined">{{ createdUser.first_name }} {{ createdUser.last_name }}</span> Дата: {{ layer.createdAt }}</p>
-    <p class="tui-text_body-m" *ngIf="modifyUser !== undefined">Изменен: {{ modifyUser.first_name }} {{ modifyUser.last_name }} Дата: {{ layer.editAt }}</p>
+    <p class="tui-text_body-m">Создан: <a tuiLink routerLink="/users" [queryParams]="{id: layer.createdBy}" *ngIf="createdUser !== undefined">{{ createdUser.first_name }} {{ createdUser.last_name }}</a> Дата: {{ layer.createdAt }}</p>
+    <p class="tui-text_body-m" *ngIf="modifyUser !== undefined">Изменён: <a tuiLink routerLink="/users" [queryParams]="{id: layer.editBy}">{{ modifyUser.first_name }} {{ modifyUser.last_name }}</a> Дата: {{ layer.editAt }}</p>
 </div>
 
 <app-map *ngIf="layer !== undefined"

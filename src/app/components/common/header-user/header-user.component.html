@@ -18,12 +18,13 @@
             class="tui-space_top-1"
             [rounded]="true"
             [autoColor]="true"
+            [avatarUrl]="userAvatar"
             size="s"
         ></tui-avatar>
 
         <ng-template #dropdownContent>
             <tui-data-list>
-                <button (click)="onClickSettings()" tuiOption>Настройки</button>
+                <button (click)="onClickSettings()" tuiOption>Профиль</button>
                 <button (click)="onClickExit()" tuiOption>Выход</button>
             </tui-data-list>
         </ng-template>

@@ -13,10 +13,11 @@ export class RequestService {
     const refresh = localStorage.getItem('refresh')
     let access  = localStorage.getItem('access')
     let headers : HeadersInit | undefined = undefined
-    if (data.body !== undefined) {
+    const contentType = data.contentType ?? 'application/json'
+    if (data.body !== undefined && contentType !== 'multipart/form-data') {
       headers = {
         ...headers ?? {},
-        "Content-Type": "application/json"
+        "Content-Type": contentType
       }
     }
 
@@ -55,7 +56,10 @@ export class RequestService {
     const response = await fetch(data.url, {
       method: data.method.toString(),
       headers: headers,
-      body: data.body !== undefined ? JSON.stringify(data.body) : undefined,
+      // @ts-ignore
+      body: data.body !== undefined 
+        ? (contentType === 'application/json' ? JSON.stringify(data.body) : data.body) 
+        : undefined,
     })
 
     if (!response.ok) {
@@ -68,6 +72,38 @@ export class RequestService {
       code: response.status,
       body: await response.json()
     }
+  }
+
+  async getAccessToken(): Promise<string | undefined> {
+    const refresh = localStorage.getItem('refresh')
+    let access  = localStorage.getItem('access')
+
+    if (access === null) {
+      access = await this.refreshToken(refresh) ?? null
+      if (access === null) {
+        localStorage.removeItem('refresh')
+        localStorage.removeItem('access')
+        this.router.navigate(['/login'])
+      } else {
+        localStorage.setItem('access', access)
+      }
+    } else {
+      const payload = JSON.parse(atob(access.split('.')[1]))
+      const exp = payload.exp as number
+      const expDate = new Date(exp * 1000).getUTCMilliseconds()
+      if (Date.now() > expDate) {
+        access = await this.refreshToken(refresh) ?? null
+        if (access === null) {
+          localStorage.removeItem('refresh')
+          localStorage.removeItem('access')
+          this.router.navigate(['/login'])
+        } else {
+          localStorage.setItem('access', access)
+        }
+      }
+    }
+
+    return access === null ? undefined : access
   }
 
   private async refreshToken(refresh: string | null): Promise<string | undefined> {

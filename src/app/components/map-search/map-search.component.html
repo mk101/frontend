@@ -17,9 +17,11 @@
             <tui-opt-group>
                 @for (data of searchResult; track data) {
                     <a 
+                        class="search-result"
                         role="menuitemcheckbox"
                         tuiOption
                         (click)="onItemClick(data)"
+                        (middleclick)="onMiddleClick(data)"
                     >
                     <div>
                         <div class="title-tags">

@@ -1,8 +1,8 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RequestService } from '../../services/common/request.service';
 import { Method } from '../../models/requests/request';
-import { TuiAlertService, TuiButtonModule, TuiDialogService, TuiSvgModule } from '@taiga-ui/core';
+import { TuiAlertService, TuiButtonModule, TuiDialogService, TuiLinkModule, TuiSvgModule } from '@taiga-ui/core';
 import { SearchData } from '../../models/search';
 import { Response } from '../../models/requests/base';
 import { HeaderComponent } from '../../components/common/header/header.component';
@@ -25,7 +25,9 @@ import { EditLayer } from '../../models/edit-layer';
     MapComponent,
     TuiTagModule,
     TuiSvgModule,
-    TuiButtonModule
+    TuiButtonModule,
+    RouterModule,
+    TuiLinkModule
   ],
   templateUrl: './layer-page.component.html',
   styleUrl: './layer-page.component.scss'
@@ -117,7 +119,7 @@ export class LayerPageComponent implements OnInit {
       return true
     }
 
-    return user.roles.map(r => r.role).includes(Role.DELETE_OWN_MAP)
+    return this.layer.createdBy === user.id && user.roles.map(r => r.role).includes(Role.DELETE_OWN_MAP)
   }
 
   private async hasRightsToEditAsync(): Promise<boolean> {
@@ -131,7 +133,7 @@ export class LayerPageComponent implements OnInit {
       return true
     }
 
-    return user.roles.map(r => r.role).includes(Role.EDIT_OWN_MAP)
+    return this.layer.createdBy === user.id && user.roles.map(r => r.role).includes(Role.EDIT_OWN_MAP)
   }
 
   private async getUser(id: string | undefined): Promise<User | undefined> {
@@ -182,6 +184,13 @@ export class LayerPageComponent implements OnInit {
             return
           }
 
+          if (response.body !== undefined) {
+            if ((response.body as Response<any>).error === 'User disabled') {
+              this.alert.open('Пользователь деактивирован', {status: 'error'}).subscribe()
+              return
+            }
+          }
+
           this.alert.open('Успешно').subscribe()
           this.loadLayer()
         })
@@ -197,6 +206,13 @@ export class LayerPageComponent implements OnInit {
       if (response.code !== 200) {
         this.alert.open('Что-то пошло не так', {status: 'error'}).subscribe()
         return
+      }
+
+      if (response.body !== undefined) {
+        if ((response.body as Response<any>).error === 'User disabled') {
+          this.alert.open('Пользователь деактивирован', {status: 'error'}).subscribe()
+          return
+        }
       }
 
       this.router.navigate(['my-layers'])

@@ -8,6 +8,8 @@ import { NgFor, NgIf } from '@angular/common';
 import { TuiOverscrollModule } from '@taiga-ui/cdk';
 import { Method } from '../../models/requests/request';
 import { Response } from '../../models/requests/base';
+import { MiddleclickDirective } from '../../directives/middleclick.directive';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map-search',
@@ -15,6 +17,7 @@ import { Response } from '../../models/requests/base';
   imports: [
     NgFor,
     NgIf,
+    MiddleclickDirective,
     TuiInputModule, 
     TuiButtonModule,
     TuiIslandModule,
@@ -33,7 +36,10 @@ export class MapSearchComponent implements OnInit {
 
   @Output() layerClick = new EventEmitter()
 
-  constructor (private requestService: RequestService) {}
+  constructor (
+    private requestService: RequestService,
+    private router: Router
+  ) {}
 
   readonly searchForm = new FormGroup({
     searchValue: new FormControl()
@@ -104,11 +110,15 @@ export class MapSearchComponent implements OnInit {
     this.layerClick.emit(item)
   }
 
+  onMiddleClick(item: SearchData): void {
+    this.router.navigate(['/layer'], {queryParams: {id: item.id}})
+  }
+
   ngOnInit(): void {
   }
 
   getRemaining(index: number, data: string[]) {
-    const offset = index < this.required ? index + 2 : index + 1
+    const offset = index < this.required ? index + 1 : index
  
     return data.length - offset
   }

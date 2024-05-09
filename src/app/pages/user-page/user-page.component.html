@@ -1,0 +1,140 @@
+<app-header [buttons]="buttons"></app-header>
+
+<div class="container" *ngIf="user !== undefined">
+    <h1 class="tui-text_h1">
+        <tui-avatar
+            [autoColor]="true"
+            [avatarUrl]="userAvatar"
+            [text]="user.first_name + ' ' + user.last_name"
+            size="xl"
+        ></tui-avatar>
+        <span>{{ user.first_name }} {{ user.last_name }}</span>
+        <tui-tag
+        class="tui-space_left-3"
+            *ngIf="isAdmin"
+            value="Администратор"
+            status="primary"
+        ></tui-tag>
+        <tui-tag
+        class="tui-space_left-3"
+            *ngIf="isDisabled"
+            value="Заблокирован"
+            status="warning"
+        ></tui-tag>
+        <button
+            *ngIf="canBan && !isDisabled"
+            class="tui-space_left-3"
+            tuiIconButton
+            type="button"
+            icon="tuiIconUserXLarge"
+            appearance="secondary-destructive"
+            (click)="ban()"
+        ></button>
+    </h1>
+
+    <button
+        *ngIf="isDisabled && canBan"
+        (click)="unban()"
+        tuiButton
+    >Разблокировать</button>
+
+    <form
+        *ngIf="isCurrentUser && !isDisabled"
+     [formGroup]="dataForm">
+        <tui-input class="tui-space_vertical-5" formControlName="firstName">
+            Имя
+            <input tuiTextfield/>
+        </tui-input>
+        <tui-input class="tui-space_vertical-5" formControlName="lastName">
+            Фамилия
+            <input tuiTextfield/>
+        </tui-input>
+
+        <button
+            tuiButton
+            type="button"
+            [disabled]="!nameChanged"
+            (click)="updateName()"
+        >Сохранить</button>
+    </form>
+
+    <div *ngIf="isCurrentUser && !isDisabled">
+        <h3 class="tui-text_h3">Аватар</h3>
+
+        <div *ngIf="userAvatar === null">
+            <tui-input-files
+                class="tui-space_vertical-5"
+                *ngIf="!fileControl.value"
+                accept="image/png,image/jpeg"
+                [formControl]="fileControl"
+                (reject)="onReject($event)"
+            >
+            </tui-input-files>
+
+            <tui-files class="tui-space_vertical-5">
+                <tui-file
+                    *ngIf="loadedFiles$ | async as file"
+                    [file]="file"
+                    [showDelete]="fileControl.enabled"
+                    (removed)="removeFile()"
+                ></tui-file>
+            
+                <tui-file
+                    *ngIf="rejectedFiles$ | async as file"
+                    state="error"
+                    [file]="file"
+                    [showDelete]="fileControl.enabled"
+                    (removed)="clearRejected()"
+                ></tui-file>
+            
+                <tui-file
+                    *ngIf="loadingFiles$ | async as file"
+                    state="loading"
+                    [file]="file"
+                    [showDelete]="fileControl.enabled"
+                ></tui-file>
+            </tui-files>
+        </div>
+
+        <div *ngIf="userAvatar !== null">
+            <p class="tui-text_body-m">Аватар установлен</p>
+            <button
+                tuiButton
+                appearance="secondary-destructive"
+                (click)="deleteAvatar()"
+            >Удалить</button>
+        </div>
+    </div>
+
+    <div *ngIf="isCurrentUser && !isDisabled">
+        <h3 class="tui-text_h3">Пароль</h3>
+
+        <form
+     [formGroup]="passwordForm">
+        <tui-input-password class="tui-space_vertical-5" formControlName="passwordValue">
+            Новый пароль
+            <input tuiTextfield/>
+        </tui-input-password>
+
+        <button
+            tuiButton
+            type="button"
+            [disabled]="!passwordForm.valid"
+            (click)="updatePassword()"
+        >Изменить</button>
+    </form>
+    </div>
+
+    <h3 class="tui-text_h3">Слои пользователя</h3>
+    <div *ngIf="layers === undefined">Загрузка</div>
+    <div *ngIf="layers?.length === 0">Ничего не найдено</div>
+
+    <div 
+        *ngFor="let layer of layers"
+        (click)="onLayerClick(layer)"
+        class="layer-element"
+    >
+        <div>{{layer.name}}</div>
+        <div>{{layer.description}}</div>
+    </div>
+</div>
