@@ -3,8 +3,8 @@ export interface Request {
     body?: object,
     url: string,
     method: Method,
-    useAuth?: boolean // true by default
-
+    useAuth?: boolean, // true by default
+    contentType?: string
 }
 
 export interface Response {

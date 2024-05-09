@@ -49,7 +49,6 @@ export class LoginPageComponent {
   })
 
   onSubmit(): void {
-    console.log(`${this.loginForm.controls.loginValue.value} ${this.loginForm.controls.passwordValue.value}`)
     this.userService.login(
       this.loginForm.controls.loginValue.value!,
       this.loginForm.controls.passwordValue.value!,

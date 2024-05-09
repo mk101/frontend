@@ -26,7 +26,7 @@ export class HeaderUserComponent {
   user: User | null | undefined
 
   onClickSettings() {
-    this.router.navigate(['/settings'])
+    location.href = `/users?id=${this.user?.id}`
   }
 
   onClickExit() {
@@ -34,6 +34,17 @@ export class HeaderUserComponent {
       () => window.location.reload(),
       (err) => this.alert.open(err).subscribe()
     )
+  }
+
+  get userAvatar(): string | null {
+    if (this.user == undefined || this.user == null) {
+      return null
+    }
+    if (this.user.avatar === undefined || this.user.avatar === null) {
+      return null
+    }
+
+    return `/api/avatars/${this.user.id}`
   }
 
 }
